@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stone.mapper.RoleDao">
+
+    <resultMap type="com.stone.model.Role" id="roleResult">
+        <result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+        <result property="role" column="role" />
+        <result property="description" column="description" />
+        <result property="available" column="available" />
+		<association property="usr" column="usr" select="cn.stone.mapper.UserDao.select"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stone.model.Role">
+		insert into roles(
+				role,
+				description,
+				available,
+				usr
+		) values (
+				#{role,jdbcType=VARCHAR},
+				#{description,jdbcType=VARCHAR},
+				#{available,jdbcType=INTEGER},
+			    <choose>
+			    	<when test="usr == null">NULL</when>
+			    	<otherwise>#{usr.id,jdbcType=INTEGER}</otherwise>
+			    </choose>
+		)
+		<selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+			select @@IDENTITY as id
+		</selectKey>
+	</insert>
+
+    <select id="selectRoles" resultMap="roleResult">
+        select *
+        	from roles
+    </select>
+
+    <select id="select" parameterType="int" resultMap="roleResult">
+        select *
+        	from roles where id=#{id}
+    </select>
+
+    <update id="updateRole" parameterType="role">
+        update
+        	roles set
+		        username=#{username},
+		        password=#{password}
+        	where id=#{id}
+    </update>
+
+    <delete id="deleteRole" parameterType="int">
+        delete
+        	from roles
+        	where id=#{id}
+    </delete>
+
+</mapper>

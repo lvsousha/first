@@ -1,0 +1,34 @@
+package com.stone.action;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("")
+public class StoneController {
+
+	@RequestMapping(value="content/example")
+	public String example(){
+		return "example/index";
+	}
+
+	@RequestMapping(value="content/user")
+	public String user(){
+		return "user/index";
+	}
+
+	@RequestMapping(value="content/grade")
+	public String grade(){
+		return "grade/index";
+	}
+
+	@RequestMapping(value="content/login")
+	public String login(){
+		return "login/login";
+	}
+	
+	@RequestMapping(value="")
+	public String first(){
+		return "login/login";
+	}
+}

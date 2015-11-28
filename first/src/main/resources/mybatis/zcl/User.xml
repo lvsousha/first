@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.UserDao">
+
+    <resultMap type="com.zcl.model.User" id="userResult">
+        		<result property="id" column="usr_id" />
+        		<result property="code" column="usr_code" />
+        		<result property="name" column="usr_name" />
+        		<result property="password" column="usr_password" />
+        		<result property="comment" column="usr_comment" />
+        		<result property="created" column="usr_created" />
+        		<result property="updated" column="usr_updated" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.zcl.model.User">
+		insert into zcl_users(
+						usr_code,
+						usr_name,
+						usr_password,
+						usr_comment,
+						usr_created,
+						usr_updated
+		) values (
+					#{code,jdbcType=VARCHAR},
+					#{name,jdbcType=VARCHAR},
+					#{password,jdbcType=VARCHAR},
+					#{comment,jdbcType=VARCHAR},
+					#{created,jdbcType=DATE},
+					#{updated,jdbcType=DATE}
+		)
+	</insert>
+
+    <select id="selectAll" resultMap="userResult">
+        select *
+        	from zcl_users
+    </select>
+
+    <select id="select" parameterType="int" resultMap="userResult">
+        select *
+        	from zcl_users where usr_id=#{id}
+    </select>
+    
+    <select id="selectByName" parameterType="String" resultMap="userResult">
+    select *
+    	from zcl_users where usr_name=#{name}
+</select>
+
+    <update id="update" parameterType="com.zcl.model.User">
+        update
+        	zcl_users set
+        			usr_id=#{id},
+        			usr_code=#{code},
+        			usr_name=#{name},
+        			usr_password=#{password},
+        			usr_comment=#{comment},
+        			usr_created=#{created},
+        			usr_updated=#{updated}
+        	where usr_id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete
+        	from zcl_users
+        	where usr_id=#{id}
+    </delete>
+
+</mapper>

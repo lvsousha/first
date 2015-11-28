@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:p="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	default-lazy-init="true">
+
+	<!-- 只搜索@Controller 标注的类 不搜索其他标注的类 -->
+	<context:component-scan base-package="com.stone.action,com.stone.action.*,com.zcl.action,com.zcl.action.*" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 对某些静态资源，如css,图片等进行过滤 ,有引用 "/resources/**" 的路径引用转到工程的/resources/目录取资源 -->
+	<mvc:resources mapping="/extjs/**" location="/extjs/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+     	 <property name="messageConverters">
+             <list>
+                 <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" />
+    		 	 <bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+             </list>
+         </property>
+    </bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/**/code"/>
+			<mvc:exclude-mapping path="/extjs/**"/>
+			<mvc:exclude-mapping path="/js/**"/>
+			<mvc:exclude-mapping path="/images/**"/>
+			<bean class="com.stone.action.interceptor.StoneInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+    <!-- 这个是针对返回视图还是json值的视图配置   来分别处理同步和异步请求 -->
+    <bean  class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+            <property name="mediaTypes">
+                <map>
+                    <entry key="html" value="text/html" />
+                    <entry key="json" value="application/json" />
+                </map>
+            </property>
+            <property name="favorPathExtension" value="true" /><!-- 是否启用扩展名支持，默认就是true  /user/{userid}.json-->
+            <property name="favorParameter" value="true" /><!-- 是否启用参数支持，默认就是true /user/{userid}?format=json-->
+            <property name="ignoreAcceptHeader" value="true" /><!-- 是否忽略掉accept header，默认就是false Accept:application/json-->
+            <property name="viewResolvers">
+                <list>
+                    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+                    <bean id="viewResolver"  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+                        <property name="order" value="1"/>
+                        <property name="cache" value="true" />
+                        <property name="prefix" value="" />
+                        <property name="suffix" value=".ftl" />
+                        <property name="contentType" value="text/html;charset=UTF-8"></property>
+                        <property name="requestContextAttribute" value="request" />
+                        <property name="exposeSpringMacroHelpers" value="true" />
+                        <property name="exposeRequestAttributes" value="true" />
+                        <property name="exposeSessionAttributes" value="true" />
+                    </bean>
+                </list>
+            </property>
+            <property name="defaultViews">
+			    <list>
+			      <bean
+			       class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+			      <bean
+			       class="org.springframework.web.servlet.view.xml.MarshallingView">
+			        <property name="marshaller">
+			          <bean class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+			        </property>
+			      </bean>
+			    </list>
+			</property>
+            <property name="defaultContentType" value="text/html" />
+        </bean>
+	<!-- jsp视图
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>-->
+
+	<!--开发期间注释掉，上线后启用 错误解析器 发生错误默认会跳转到/web-inf/views/timeout.jsp -->
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> <property name="defaultErrorView"
+		value="timeout" /> <property name="exceptionMappings"> <props> <prop key="java.sql.SQLException">timeout</prop> <prop key="java.lang.RuntimeException">timeout</prop>
+		<prop key="org.springframework.transaction.TransactionException">timeout</prop> <prop key="org.springframework.dao.DataAccessException">timeout</prop>
+		</props> </property> </bean> -->
+
+	<!-- 国际化,并且可以批定文件编码,可以使用classpath: 或者WEB-INF/ 前缀 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/config/others/messages</value>
+				<value>classpath:ValidationMessages</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 解析request的编码 ，Default is ISO-8859-1 -->
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 设置最大允许的大小(字节)。-1表示没有限制(默认) 1024*1024*10=10MB -->
+		<property name="maxUploadSize" value="1048576000" />
+		<!--被允许的最大的内存的大小，Default is 10240 bytes -->
+		<property name="maxInMemorySize" value="20480" />
+		<!-- 一个类似懒加载的属性.可以定义该属性.让解析文件的时候再抛异常,然后Controller中定义异常处理的方法 -->
+		<property name="resolveLazily" value="true" />
+	</bean>
+</beans>

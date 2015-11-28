@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.RoleDao">
+
+    <resultMap type="com.zcl.model.Role" id="roleResult">
+        		<result property="id" column="rol_id" />
+        		<result property="code" column="rol_code" />
+        		<result property="name" column="rol_name" />
+        		<result property="comment" column="rol_comment" />
+        		<result property="created" column="rol_created" />
+        		<result property="updated" column="rol_updated" />
+    			<association property="user" column="rol_user" select="com.zcl.dao.UserDao.select"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.zcl.model.Role">
+		insert into zcl_roles(
+						rol_user,
+						rol_code,
+						rol_name,
+						rol_comment,
+						rol_created,
+						rol_updated
+		) values (
+					<choose><when test="user == null">NULL</when><otherwise>#{user.id,jdbcType=INTEGER}</otherwise></choose>,
+					#{code,jdbcType=VARCHAR},
+					#{name,jdbcType=VARCHAR},
+					#{comment,jdbcType=VARCHAR},
+					#{created,jdbcType=DATE},
+					#{updated,jdbcType=DATE}
+		)
+	</insert>
+
+    <select id="selectAll" resultMap="roleResult">
+        select *
+        	from zcl_roles
+    </select>
+
+    <select id="select" parameterType="int" resultMap="roleResult">
+        select *
+        	from zcl_roles where rol_id=#{id}
+    </select>
+    
+    <select id="selectByName" parameterType="String" resultMap="roleResult">
+    select *
+    	from zcl_roles where rol_name=#{name}
+</select>
+
+    <update id="update" parameterType="com.zcl.model.Role">
+        update
+        	zcl_roles set
+        			rol_id=#{id},
+        			rol_user=<choose><when test="user == null">NULL</when><otherwise>#{user.id,jdbcType=INTEGER}</otherwise></choose>,
+        			rol_code=#{code},
+        			rol_name=#{name},
+        			rol_comment=#{comment},
+        			rol_created=#{created},
+        			rol_updated=#{updated}
+        	where rol_id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete
+        	from zcl_roles
+        	where rol_id=#{id}
+    </delete>
+
+</mapper>

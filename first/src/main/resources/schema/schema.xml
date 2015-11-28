@@ -1,0 +1,21 @@
+<tabels>
+  <table name="user" columnPrefix="usr_" descr="用户表">
+    <int name="id" key="primary" />
+    <varchar name="code" null="true" key="unique" descr="编码"/>
+    <varchar name="name" descr="名称"/>
+    <varchar name="password" length="64" descr="科目编号"/>
+    <varchar name="comment"/>
+    <date name="created"/>
+    <date name="updated"/>
+  </table>
+
+  <table name="role" columnPrefix="rol_" descr="角色表">
+    <int name="id" key="primary" />
+    <ref table="user" name="user" descr="用户"/>
+    <varchar name="code" null="true" key="unique" descr="编码"/>
+    <varchar name="name" null="true" descr="名称"/>
+    <varchar name="comment"/>
+    <date name="created"/>
+    <date name="updated"/>
+  </table>
+</tabels>
