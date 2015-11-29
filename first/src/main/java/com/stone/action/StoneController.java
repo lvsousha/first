@@ -26,6 +26,11 @@ public class StoneController {
 	public String login(){
 		return "login/login";
 	}
+
+	@RequestMapping(value="content/ftp")
+	public String ftp(){
+		return "ftp/index";
+	}
 	
 	@RequestMapping(value="")
 	public String first(){

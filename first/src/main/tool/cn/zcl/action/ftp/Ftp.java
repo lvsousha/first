@@ -14,7 +14,7 @@ import org.apache.commons.net.ftp.FTPFile;
 
 public class Ftp {
 
-	FTPClient ftp = new FTPClient();
+	public FTPClient ftp = new FTPClient();
 
 	public void connect(FtpModel model){
 		try{

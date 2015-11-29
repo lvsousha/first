@@ -136,12 +136,13 @@ Ext.onReady(function() {
                 Ext.Ajax.request({
                 	url:'login/authen',
                 	params:Ext.getCmp('loginForm').getForm().getValues(),
-                	success: function(response, opts){
+                	success: function(response, opts){                		 
+//                		window.open("http://www.jb51.net"); 
                 		var obj = Ext.decode(response.responseText);
                 		if(obj.success == true){
-                			Ext.getCmp('loginForm').getForm().setValues(obj.user);
+                			window.location.href=obj.url;
                 		}else{
-                			alert('failure');
+                			alert(obj.errorMessage);
                 		}               		
                 	},
                     failure: function(response, opts) {

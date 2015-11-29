@@ -31,16 +31,20 @@ public class LoginController {
 		User temp = userDao.selectByName(user.getName());
 		HttpSession session = request.getSession();
 		if(!session.getAttribute("code").equals(request.getParameter("code"))){			
-			result.put("failure", false);
+			result.put("success", false);
+			result.put("errorMessage", "验证码不正确");
 			return result;
 		}			
 		if(Encryption.md5(user.getPassword(), user.getName()+user.getPassword()).equals(temp.getPassword())){
 			result.put("user", temp);
 			result.put("success", true);
+			result.put("url", request.getContextPath()+"/content/example");
 			session.setAttribute("user", user);
-			session.setMaxInactiveInterval(60*60);
-		}else		
+			session.setMaxInactiveInterval(-1);
+		}else{
 			result.put("success", false);
+			result.put("errorMessage", "用户名或密码不正确");
+		}			
 		return result;
 	}
 

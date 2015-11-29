@@ -8,6 +8,7 @@ public class Tree {
 	String text = null;
 	boolean leaf = false;
 	boolean expanded = true;
+	boolean checked ;
 	Object model;
 
 	public static Tree folder(String text, Object model){

@@ -25,10 +25,10 @@ public class StoneInterceptor extends HandlerInterceptorAdapter {
 		System.out.println("IN-PRE");
 		String url = request.getRequestURI();
 		System.out.println(noLogin(request)&&!containLogin(url));
-		if(noLogin(request) && !containLogin(url)){
-			response.sendRedirect("/first/content/login");
-			return false;
-		}
+//		if(noLogin(request) && !containLogin(url)){
+//			response.sendRedirect("/first/content/login");
+//			return false;
+//		}
 		System.out.println("OUT-PRE");
 		return true;
 	}
