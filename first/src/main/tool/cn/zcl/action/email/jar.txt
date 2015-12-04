@@ -1,0 +1,3 @@
+mail.jar
+activation.jar
+common-email.jar
