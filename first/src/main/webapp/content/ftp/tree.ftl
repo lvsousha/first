@@ -56,11 +56,40 @@ var treePanel = Ext.create('Ext.tree.Panel',{
 	        		treePanel.getStore().proxy.url = '/first/content/ftp/remoteFiles'
 	        		treePanel.getStore().load();
 	        	}
+	        },{
+	        	xtype:'button',
+	        	text: 'Download',
+	        	handler:function(){
+	        		var records = treePanel.getChecked();
+	        		var nodes = new Array();
+	        		Ext.each(records, function(value){
+	        			console.log(value.data);
+	        			nodes.push({name:value.data.text});
+	        		})
+	        		formPanel.getForm().findField('nodes').setValue(Ext.encode(nodes));
+	        		Ext.Ajax.request({
+	                	url:'ftp/download',
+	                	params:formPanel.getForm().getValues(),
+	                	success: function(response, opts){
+	                		alert('success');
+//	                		window.open("http://www.jb51.net"); 
+//	                		var obj = Ext.decode(response.responseText);
+//	                		if(obj.success == true){
+//	                			window.location.href=obj.url;
+//	                		}else{
+//	                			alert(obj.errorMessage);
+//	                		}               		
+	                	},
+	                    failure: function(response, opts) {
+	                        alert('failure');
+	                    }
+	                })
+	        	}
 	        }]
 	 }],
 	 listeners:{
 		 itemclick: function(view, record, index, e, ep){
-			 window.location = record.data.model.uri;
+//			 window.location = record.data.model.uri;
 		 }
 	 }
 });

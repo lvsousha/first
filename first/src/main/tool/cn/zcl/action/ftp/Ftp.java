@@ -14,18 +14,18 @@ import org.apache.commons.net.ftp.FTPFile;
 
 public class Ftp {
 
-	public FTPClient ftp = new FTPClient();
+	public FTPClient ftpClient = new FTPClient();
 
 	public void connect(FtpModel model){
 		try{
 			if(model.getPort() != null)
-				ftp.connect(model.getIp(),model.getPort());
+				ftpClient.connect(model.getIp(),model.getPort());
 			else
-				ftp.connect(model.getIp());
-			ftp.login(model.getUsername(), model.getPassword());
-			ftp.changeWorkingDirectory(model.getRemotePath());
-			ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
-			ftp.setControlEncoding("UTF-8");
+				ftpClient.connect(model.getIp());
+			ftpClient.login(model.getUsername(), model.getPassword());
+			ftpClient.changeWorkingDirectory(model.getRemotePath());
+			ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+			ftpClient.setControlEncoding("UTF-8");
 		}catch(SocketException e){
 			e.printStackTrace();
 		}catch(IOException e){
@@ -35,8 +35,8 @@ public class Ftp {
 
 	public void closeFtp(){
 		try {
-			ftp.logout();
-			ftp.disconnect();
+			ftpClient.logout();
+			ftpClient.disconnect();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,15 +49,15 @@ public class Ftp {
 	public void upload(File file){
 		try{
 			if(file.isDirectory()){
-				ftp.makeDirectory(file.getName());
-				ftp.changeWorkingDirectory(file.getName());
+				ftpClient.makeDirectory(file.getName());
+				ftpClient.changeWorkingDirectory(file.getName());
 				File[] files = file.listFiles();
 				for(int num=0; num<files.length; num++){
 					upload(files[num]);
 				}
 			}else{
 				FileInputStream in = new FileInputStream(file);
-				ftp.storeFile(file.getName(), in);
+				ftpClient.storeFile(file.getName(), in);
 				in.close();
 				System.out.println("成功上传文件："+file.getName());
 			}
@@ -76,7 +76,7 @@ public class Ftp {
 	public void upload(byte[] bytes, String filename){
 		try{
 			InputStream in = new ByteArrayInputStream(bytes);
-			ftp.storeFile(filename, in);
+			ftpClient.storeFile(filename, in);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -84,17 +84,34 @@ public class Ftp {
 
 	public void download(FtpModel model){
 		try{
-			ftp.changeWorkingDirectory(model.getRemoteFilePath());
-			FTPFile[] fs = ftp.listFiles();
+			ftpClient.changeWorkingDirectory(model.getRemoteFilePath());
+			FTPFile[] fs = ftpClient.listFiles();
 			for(FTPFile ff : fs){
-				if(ff.getName().equals(model.getRemoteFileName())){
+				System.out.println(ff.getName());
+				if(ff.getName().equals(model.getDownloadFileName())){
 					File f = new File(model.getLocalFilePath());
 					if(!f.exists())
 						f.mkdir();
 					File localFile = new File(model.getLocalFilePath()+"/"+ff.getName());
-					OutputStream os = new FileOutputStream(localFile);
-					ftp.retrieveFile(ff.getName(), os);
-					os.close();
+					if(ff.isDirectory())
+						localFile.mkdir();
+					else{
+						OutputStream os = new FileOutputStream(localFile);
+						ftpClient.retrieveFile(ff.getName(), os);
+						os.close();
+					}					
+					System.out.println("成功下载文件："+ff.getName());
+					break;
+				}else{
+					if(ff.isDirectory()){
+						File file = new File(model.getLocalFilePath()+"/"+ff.getName());
+						if(!file.exists())
+							file.mkdir();
+						model.setLocalFilePath(model.getLocalFilePath()+"/"+ff.getName());
+						model.setRemoteFilePath(ff.getName());
+						download(model);
+						ftpClient.changeToParentDirectory();
+					}
 				}
 			}
 		}catch (IOException e) {

@@ -29,40 +29,61 @@ public class FtpController {
 	@ResponseBody
 	@RequestMapping(value="/remoteFiles")
 	public Object create(FtpModel ftpmodel, HttpServletRequest request){
-		ftpmodel.setIp("192.168.1.101");
+		ftpmodel.setIp("192.168.1.100");
 		ftpmodel.setUsername("lvdousha");
-		ftpmodel.setPassword("lvdousha");
+		ftpmodel.setPassword("123456");
 		ftpmodel.setRemotePath("FTP/");
+		ftpmodel.setLocalFilePath("E:\\FTP");
 		Ftp f = new Ftp();
 		f.connect(ftpmodel);
 		Tree node = null;
 		try {
-			node = getTree(null, f.ftp);
+			node = getTree(null, f.ftpClient);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}				
 		return node;
 	}
 	
-	public Tree getTrees(FtpModel model, FTPClient ftp){
-		Tree folder = Tree.folder(null, null);
-		List<Tree> children = new ArrayList<Tree>();
-		try{
-			ftp.changeWorkingDirectory(model.getRemoteFilePath());
-			FTPFile[] fs = ftp.listFiles();
-			for(FTPFile ff : fs){
-				if(ff.isDirectory()){
-					children.add(getTree(ff,ftp));
-				}else{
-					children.add(Tree.leaf(ff.getName(), ff));
-				}
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		folder.setChildren(children);
-		return folder;
+	@ResponseBody
+	@RequestMapping(value="/download")
+	public Object download(DownloadModel model, HttpServletRequest request){
+		FtpModel ftpmodel = new FtpModel();
+		ftpmodel.setIp("192.168.1.100");
+		ftpmodel.setUsername("lvdousha");
+		ftpmodel.setPassword("123456");
+		ftpmodel.setRemotePath("FTP/");
+		ftpmodel.setLocalFilePath("E:\\FTP");
+		Ftp ftp = new Ftp();
+		ftp.connect(ftpmodel);
+//		for(F f : model.getNodes()){
+//			System.out.println(name);
+//			ftpmodel.setDownloadFileName(name);
+//			ftp.download(ftpmodel);
+//		}
+		System.out.println("-------------"+model.getNodes().size());
+		return model;
 	}
+	
+//	public Tree getTrees(FtpModel model, FTPClient ftp){
+//		Tree folder = Tree.folder(null, null);
+//		List<Tree> children = new ArrayList<Tree>();
+//		try{
+//			ftp.changeWorkingDirectory(model.getRemoteFilePath());
+//			FTPFile[] fs = ftp.listFiles();
+//			for(FTPFile ff : fs){
+//				if(ff.isDirectory()){
+//					children.add(getTree(ff,ftp));
+//				}else{
+//					children.add(Tree.leaf(ff.getName(), ff));
+//				}
+//			}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		folder.setChildren(children);
+//		return folder;
+//	}
 	
 	public Tree getTree(FTPFile file, FTPClient ftp) throws Exception{
 		Tree folder = null;

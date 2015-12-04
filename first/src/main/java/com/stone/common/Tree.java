@@ -4,17 +4,18 @@ import java.util.List;
 
 public class Tree {
 
-	List<Tree> children = null;
-	String text = null;
-	boolean leaf = false;
-	boolean expanded = true;
-	boolean checked ;
-	Object model;
+	private List<Tree> children = null;
+	private String text = null;
+	private boolean leaf = false;
+	private boolean expanded = true;
+	private boolean checked = false;
+	private Object model;
 
 	public static Tree folder(String text, Object model){
 		Tree tree = new Tree();
 		tree.setExpanded(true);
 		tree.setLeaf(false);
+		tree.setChecked(false);
 		tree.setText(text);
 		tree.setModel(model);
 		return tree;
@@ -24,6 +25,7 @@ public class Tree {
 		Tree tree = new Tree();
 		tree.setExpanded(true);
 		tree.setLeaf(true);
+		tree.setChecked(false);
 		tree.setText(text);
 		tree.setModel(model);
 		return tree;
@@ -67,6 +69,14 @@ public class Tree {
 
 	public void setModel(Object model) {
 		this.model = model;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 

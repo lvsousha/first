@@ -6,12 +6,12 @@ public class FtpModel {
 	private Integer port;
 	private String username;
 	private String password;
-	private String remotePath = "D://ftp";
+	private String remotePath;
 	private String localPath;
 	private String remoteFilePath;
-	private String localFilePath = "D://FTP";
+	private String localFilePath;
 	private String localFileName;
-	private String remoteFileName;
+	private String downloadFileName;
 
 	public String getIp() {
 		return ip;
@@ -69,14 +69,6 @@ public class FtpModel {
 		this.localFileName = localFileName;
 	}
 
-	public String getRemoteFileName() {
-		return remoteFileName;
-	}
-
-	public void setRemoteFileName(String remoteFileName) {
-		this.remoteFileName = remoteFileName;
-	}
-
 	public String getRemoteFilePath() {
 		return remoteFilePath;
 	}
@@ -91,6 +83,14 @@ public class FtpModel {
 
 	public void setLocalFilePath(String localFilePath) {
 		this.localFilePath = localFilePath;
+	}
+
+	public String getDownloadFileName() {
+		return downloadFileName;
+	}
+
+	public void setDownloadFileName(String downloadFileName) {
+		this.downloadFileName = downloadFileName;
 	}
 
 

@@ -24,7 +24,7 @@ var formPanel = Ext.create('Ext.form.Panel',{
 		        	name:'username',
 		        	id:'username',
 		        	allowBlank:false,
-		        	validator:function(value){},
+//		        	validator:function(value){},
 		        	listeners:{}
 		        },{
 		        	xtype:'textfield',
@@ -65,5 +65,14 @@ var formPanel = Ext.create('Ext.form.Panel',{
 		            		
 		            	}
 		            }]
+		        },{
+		        	xtype:'textfield',
+		        	fieldLabel:'nodes',
+		        	labelAlign:'right',
+		        	name:'nodes',
+		        	id:'nodes',
+//		        	allowBlank:false,
+//		        	validator:function(value){},
+		        	listeners:{}
 		        }]
     	 });
