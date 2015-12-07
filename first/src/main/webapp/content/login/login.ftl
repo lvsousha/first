@@ -99,7 +99,11 @@ Ext.onReady(function() {
                 	height:'20',
                 	handler:function(){
                		var code_image = Ext.getCmp('code_image');
-                		console.log('in');
+                		console.log(code_image.src);
+                		if(code_image.src == 'login/code')
+                			code_image.setSrc('login/anothercode');
+                		else
+                			code_image.setSrc('login/code');
                 	}
                 }]
             },{
@@ -124,6 +128,12 @@ Ext.onReady(function() {
         items: userLoginPanel,
         // 重置 和 登录 按钮.
         buttons: [{
+        	text: '注册',
+        	handler: function() {
+                console.log('in');
+        		registerWindow.show();
+            }
+        },{
             text: '重置',
             iconCls: 'Wrench',
             handler: function() {
