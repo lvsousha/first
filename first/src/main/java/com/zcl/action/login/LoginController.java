@@ -48,6 +48,16 @@ public class LoginController {
 		return result;
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/sendEmail")
+	public Object sendEmail(User user, HttpServletRequest request){
+		Map<String,Object> result = new HashMap<String,Object>();
+		HttpSession session = request.getSession();
+		session.setAttribute("emailname", "");
+		session.setAttribute("emailcode", "");
+		return result;
+	}
+
 //	@ResponseBody
 //	@RequestMapping(value="/authen")
 //	public Object create(User user){
