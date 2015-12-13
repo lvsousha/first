@@ -32,6 +32,11 @@ public class StoneController {
 		return "ftp/index";
 	}
 	
+	@RequestMapping(value="content/file")
+	public String file(){
+		return "file/index";
+	}
+	
 	@RequestMapping(value="")
 	public String first(){
 		return "login/login";
