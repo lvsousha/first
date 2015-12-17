@@ -1,12 +1,12 @@
-var ftlTab = {
-		 title:'基本组件',
+var fileTab = {
+		 title:'上传文件',
          layout:'fit',
 		 items:[{
 			 xtype: 'panel',
-		     title: 'One',
+//		     title: 'One',
 	         layout: {
 	             type: 'vbox',
 	         },
-	         items:[addStaffForm,treePanel]
+	         items:[uploadForm,treePanel]
 		 }]
 	 };

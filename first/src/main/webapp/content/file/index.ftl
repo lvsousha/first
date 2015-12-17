@@ -20,7 +20,7 @@ Ext.onReady(function(){
 	var content = Ext.create('Ext.tab.Panel', {
 		id: 'mainContent',
 		plain: false,
-		items:[ftlTab],
+		items:[fileTab],
 		listeners: {}
 	});
 

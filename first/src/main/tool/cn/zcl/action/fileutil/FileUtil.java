@@ -121,7 +121,6 @@ public class FileUtil {
 	 * @param path 路径
 	 */
 	public static void traverseFolder2(String path) {
-
         File file = new File(path);
         if (file.exists()) {
             File[] files = file.listFiles();
