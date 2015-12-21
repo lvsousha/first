@@ -24,12 +24,10 @@ public class HttpUtil {
      * post方式提交表单（模拟用户登录请求）
      */
     public void postForm() {
-        // 创建默认的httpClient实例.
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        // 创建httppost
-        HttpPost httppost = new HttpPost("http://localhost:8080/myDemo/Ajax/serivceJ.action");
-        // 创建参数队列
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+        
+        CloseableHttpClient httpclient = HttpClients.createDefault();// 创建默认的httpClient实例.        
+        HttpPost httppost = new HttpPost("http://localhost:8080/myDemo/Ajax/serivceJ.action");// 创建httppost        
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();// 创建参数队列
         formparams.add(new BasicNameValuePair("username", "admin"));
         formparams.add(new BasicNameValuePair("password", "123456"));
         UrlEncodedFormEntity uefEntity;
@@ -54,8 +52,7 @@ public class HttpUtil {
             e1.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
+        } finally {// 关闭连接,释放资源            
             try {
                 httpclient.close();
             } catch (IOException e) {
@@ -67,13 +64,10 @@ public class HttpUtil {
     /**
      * 发送 post请求访问本地应用并根据传递参数不同返回不同结果
      */
-    public void post() {
-        // 创建默认的httpClient实例.
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        // 创建httppost
-        HttpPost httppost = new HttpPost("http://localhost:8080/myDemo/Ajax/serivceJ.action");
-        // 创建参数队列
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+    public void post() {       
+        CloseableHttpClient httpclient = HttpClients.createDefault();// 创建默认的httpClient实例.        
+        HttpPost httppost = new HttpPost("http://localhost:8080/myDemo/Ajax/serivceJ.action");// 创建httppost        
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();// 创建参数队列
         formparams.add(new BasicNameValuePair("type", "house"));
         UrlEncodedFormEntity uefEntity;
         try {
@@ -97,8 +91,7 @@ public class HttpUtil {
             e1.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
+        } finally {// 关闭连接,释放资源            
             try {
                 httpclient.close();
             } catch (IOException e) {
@@ -113,22 +106,16 @@ public class HttpUtil {
     public void get() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            // 创建httpget.
-            HttpGet httpget = new HttpGet("http://www.baidu.com/");
-            System.out.println("executing request " + httpget.getURI());
-            // 执行get请求.
-            CloseableHttpResponse response = httpclient.execute(httpget);
-            try {
-                // 获取响应实体
-                HttpEntity entity = response.getEntity();
-                System.out.println("--------------------------------------");
-                // 打印响应状态
-                System.out.println(response.getStatusLine());
-                if (entity != null) {
-                    // 打印响应内容长度
-                    System.out.println("Response content length: " + entity.getContentLength());
-                    // 打印响应内容
-                    System.out.println("Response content: " + EntityUtils.toString(entity));
+            HttpGet httpget = new HttpGet("http://www.baidu.com/");// 创建httpget
+            System.out.println("executing request " + httpget.getURI());            
+            CloseableHttpResponse response = httpclient.execute(httpget);// 执行get请求.
+            try {                
+                HttpEntity entity = response.getEntity();// 获取响应实体
+                System.out.println("--------------------------------------");                
+                System.out.println("Status:"+response.getStatusLine());// 打印响应状态
+                if (entity != null) {                   
+                    System.out.println("ContentLength: " + entity.getContentLength());// 打印响应内容长度                    
+                    System.out.println("Content: " + EntityUtils.toString(entity));// 打印响应内容
                 }
                 System.out.println("------------------------------------");
             } finally {
@@ -140,8 +127,7 @@ public class HttpUtil {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
+        } finally {// 关闭连接,释放资源            
             try {
                 httpclient.close();
             } catch (IOException e) {
