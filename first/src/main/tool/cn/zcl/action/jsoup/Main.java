@@ -1,11 +1,10 @@
-package cn.zcl.action.http;
-
+package cn.zcl.action.jsoup;
 
 public class Main {
 
 	public static void main(String[] args) {
-		HttpUtil hu = new HttpUtil();
-		hu.get();
+		// TODO Auto-generated method stub
+
 	}
 
 }
