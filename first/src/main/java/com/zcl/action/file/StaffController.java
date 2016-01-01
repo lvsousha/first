@@ -48,10 +48,6 @@ public class StaffController {
     if (multipartResolver.isMultipart(request)) {
       //把request请求进行升级，request有的，它都有，
       MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-      /**
-       * String staffname = multiRequest.getParameter("staffname");
-       * 这样也可以获得上面从staffVo里面取出的值
-       */
       //获得上传文件的名称
       Iterator<String> iter = multiRequest.getFileNames();
       //如果有的话就依次取出来

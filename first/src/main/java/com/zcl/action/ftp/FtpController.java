@@ -1,5 +1,6 @@
 package com.zcl.action.ftp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.stone.common.Tree;
 import com.zcl.dao.UserDao;
 
+import cn.zcl.action.fileutil.FileUtil;
 import cn.zcl.action.ftp.Ftp;
 import cn.zcl.action.ftp.FtpModel;
 
@@ -61,6 +63,26 @@ public class FtpController {
 //			ftpmodel.setDownloadFileName(name);
 //			ftp.download(ftpmodel);
 //		}
+		System.out.println("-------------"+model.getNodes().size());
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/upload")
+	public Object upload(DownloadModel model, HttpServletRequest request){
+		FtpModel ftpmodel = new FtpModel();
+		ftpmodel.setIp("192.168.1.100");
+		ftpmodel.setUsername("lvdousha");
+		ftpmodel.setPassword("123456");
+		ftpmodel.setRemotePath("FTP/");
+		ftpmodel.setLocalFilePath("E:\\FTP");
+		Ftp ftp = new Ftp();
+		try {
+			ftp.connect(ftpmodel);		
+			ftp.upload(FileUtil.getValueFromFilefield(request).getInputStream(),FileUtil.getValueFromFilefield(request).getOriginalFilename());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("-------------"+model.getNodes().size());
 		return model;
 	}

@@ -69,6 +69,16 @@ public class Ftp {
 	}
 
 	/**
+	 * 
+	 * @param in 输入流
+	 * @param fileName 文件名
+	 * @throws IOException
+	 */
+	public void upload(InputStream in, String fileName) throws IOException{
+		ftpClient.storeFile(fileName, in);
+	}
+
+	/**
 	 *
 	 * @param bytes 本地数据
 	 * @param filename 远程文件名
@@ -82,6 +92,18 @@ public class Ftp {
 		}
 	}
 
+	/**
+	 * 上传到指定的文件夹
+	 * @param model
+	 */
+	public void upload(FtpModel model){
+		
+	}
+	
+	/**
+	 * 下载指定文件
+	 * @param model
+	 */
 	public void download(FtpModel model){
 		try{
 			ftpClient.changeWorkingDirectory(model.getRemoteFilePath());
