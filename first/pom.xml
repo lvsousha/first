@@ -197,6 +197,11 @@
   		<artifactId>poi</artifactId>
   		<version>3.9</version>
   	</dependency>
+  	<dependency>
+  		<groupId>cn.wanghaomiao</groupId>
+  		<artifactId>SeimiCrawler</artifactId>
+  		<version>0.2.6</version>
+  	</dependency>
   </dependencies>
   <build>
   	<plugins>
