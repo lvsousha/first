@@ -26,9 +26,9 @@ public class Encryption {
 
 	public static void main(String[] args) {
 //		Encryption e = new Encryption();
-		Encryption.base64("hello");
-		Encryption.hex("hello");
-		Encryption.md5("hello", "123");
+//		Encryption.base64("hello");
+//		Encryption.hex("hello");
+//		Encryption.md5("hello", "123");
 		Encryption.md5("hello", "abc");
 	}
 
