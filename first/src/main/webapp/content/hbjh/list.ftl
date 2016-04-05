@@ -6,15 +6,31 @@ var basicStore = Ext.create('Ext.data.Store', {
     	         url: '/first/content/hbjh/basic_list',
     	         reader: {
     	             type: 'json',
-    	             root: 'basics.models',
-    	             totalProperty: 'basics.total'
+    	             root: 'model.basics',
+    	             totalProperty: 'model.total'
     	         }
     	     },
     	     autoLoad: true,
     	     listeners:{
     	    		load: function(store, records){
-//    	    			alert(Ext.isArray(records));
-    	    		}
+    	        		var selectModel = basicGrid.getSelectionModel();
+    	                if(store.prevPage)
+    	                	basicStore.selectRow = records.length - 1;
+    	                else
+    	                	basicStore.selectRow = 0;
+    	                if(store.getCount() > 0){
+    	                    if(selectModel.getSelection().length === 0){
+    	                    	basicGrid.getSelectionModel().deselectAll();
+    	                  		selectModel.select(store.getAt(basicStore.selectRow));
+    	                    }
+    	                }
+    	                else{
+    	                    var paging = basicGrid.down('pagingtoolbar');
+    	                    var pageData = paging.getPageData();
+    	                    if(pageData.currentPage > 1)
+    	                    	basicStore.loadPage(1);
+    	                }
+    	        	}
     	    	}
     	 });
 
@@ -52,12 +68,32 @@ var basicGrid = Ext.create('Ext.grid.Panel',{
 	        store: basicStore,   // GridPanel使用相同的数据源
 	        dock: 'bottom',
 	        displayInfo: true
-	    }],
+	 }],
+	 listeners:{
+		 select: function(rowModel, record, index, eOpts) {
+			 storeLoad(record);
+		 },
+		 itemdblclick: function(view, record, item, index, e, eOpts){
+			 storeLoad(record);
+			 App.openTab('person');
+		 }
+	 }
 });
+
+var storeLoad = function(record){
+	var orderno = record.get('orderno');
+	 var entname = record.get('entname');
+	 personStore.proxy.url = '/first/content/hbjh/person?orderno='+orderno;
+	 personStore.load();
+	 shareholderStore.proxy.url = '/first/content/hbjh/shareholder?orderno='+orderno;
+	 shareholderStore.load();
+	 Ext.getCmp('entname').setTitle(entname);
+}
 
 var basicTab = {
 		 title:'企业',
 		 layout:'fit',
+		 itemId:'basic',
 		 items:basicGrid,
 		 listeners:{
 	    	 activate:function(e,opts){

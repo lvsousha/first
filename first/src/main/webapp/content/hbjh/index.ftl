@@ -43,9 +43,11 @@ Ext.onReady(function(){
 //	});
 	
 	<#include  "hbjh/list.ftl">;
+	<#include  "hbjh/shareholder.ftl">;
+	<#include  "hbjh/person.ftl">;
 
 	App.createContentPanel({
-		tabs: [basicTab]
+		tabs: [basicTab,personTab]
 	});
 	
 	var content = Ext.getCmp('mainContent');

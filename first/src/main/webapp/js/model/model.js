@@ -53,3 +53,25 @@ Ext.define('Basic', {
         {name: 'regno',  type: 'string'}
     ]
 });
+
+Ext.define('Person', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'orderno', type: 'String'},
+        {name: 'pername', type: 'string'},
+        {name: 'position',  type: 'string'},
+        {name: 'person_id_bocom',  type: 'string'}
+    ]
+});
+
+Ext.define('Shareholder', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'orderno', type: 'String'},
+        {name: 'shaname', type: 'string'},
+        {name: 'person_id_bocom',  type: 'string'},
+        {name: 'condate',  type: 'string'},
+        {name: 'subconam',  type: 'string'},
+        {name: 'regcapcur',  type: 'string'}
+    ]
+});
