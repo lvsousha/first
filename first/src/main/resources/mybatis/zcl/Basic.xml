@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.BasicDao">
+
+    <resultMap type="com.zcl.model.Basic" id="basicResult">
+        <result property="orderno" column="ORDERNO" />
+        <result property="entname" column="ENTNAME" />
+        <result property="frname" column="FRNAMR" />
+        <result property="cardnum" column="CARDNUM" />
+        <result property="regno" column="REGNO" />
+    </resultMap>
+
+
+    <select id="selectAll" parameterType="map" resultMap="basicResult">
+        select 
+        	row_number() over (order by mat_id) as _rn, 
+        	a.*
+        from ENT_BASIC a
+        where 
+    </select>
+
+
+</mapper>

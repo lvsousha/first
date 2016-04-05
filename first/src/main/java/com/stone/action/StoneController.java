@@ -41,4 +41,9 @@ public class StoneController {
 	public String first(){
 		return "login/login";
 	}
+	
+	@RequestMapping(value="content/hbjh")
+	public String hbjh(){
+		return "hbjh/index";
+	}
 }

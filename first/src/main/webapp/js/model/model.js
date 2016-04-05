@@ -42,3 +42,14 @@ Ext.define('School', {
         {name: 'name', type: 'string'}
     ]
 });
+
+Ext.define('Basic', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'orderno', type: 'String'},
+        {name: 'entname', type: 'string'},
+        {name: 'frname',  type: 'string'},
+        {name: 'cardnum',  type: 'string'},
+        {name: 'regno',  type: 'string'}
+    ]
+});

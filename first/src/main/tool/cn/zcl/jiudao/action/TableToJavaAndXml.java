@@ -75,7 +75,7 @@ public class TableToJavaAndXml {
 		return toJavaTables;
 	}
 
-	public void toJavaAndXml(Connection conn){
+	public void createBasicFileAboutMybatis(Connection conn){
 		Map<String, Table> tables = getTables(conn);
 		FreeMarkerUtil fmu = new FreeMarkerUtil();
 		Iterator<String> keys = tables.keySet().iterator();
@@ -87,7 +87,7 @@ public class TableToJavaAndXml {
 //			fmu.printToJava("toJavaTemplate.ftl", root, FileUtil.firstToUpcase(table.getTablename()));
 //			fmu.printToXml("toMybatisXmlTemplate.ftl", root, FileUtil.firstToUpcase(table.getTablename()));
 //			fmu.printToInterface("toInterfaceTemplate.ftl", root, FileUtil.firstToUpcase(table.getTablename()));
-			fmu.printToXml("toSqlTemplate", root, null);
+//			fmu.printToSql("toSqlTemplate.ftl", root, null);
 		}
 	}
 
@@ -113,12 +113,14 @@ public class TableToJavaAndXml {
 		ResourceBundle rb = java.util.ResourceBundle.getBundle("properties.sqlserver.jdbc");
 		try {
 			Connection connection = ju.connect(rb.getString("jdbc.driverClassName"), rb.getString("jdbc.url"), rb.getString("jdbc.username"), rb.getString("jdbc.password"));
-			ttj.toSql(connection);
+//			ttj.createBasicFileAboutMybatis(connection);
+			ttj.getTables(connection);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+	
 
 }

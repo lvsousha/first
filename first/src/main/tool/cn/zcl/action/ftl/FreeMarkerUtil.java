@@ -15,7 +15,7 @@ public class FreeMarkerUtil {
     public Template getTemplate(String name) {
         try {
             Configuration cfg = new Configuration();
-            cfg.setClassForTemplateLoading(this.getClass(), "/template");
+            cfg.setClassForTemplateLoading(this.getClass(), "/cn/zcl/action/ftl");
             Template temp = cfg.getTemplate(name);
             return temp;
         } catch (IOException e) {
