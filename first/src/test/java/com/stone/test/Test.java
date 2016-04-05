@@ -1,14 +1,14 @@
 package com.stone.test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.zcl.dao.BasicDao;
-import com.zcl.dao.UserDao;
 import com.zcl.model.Basic;
-import com.zcl.model.User;
 
 public class Test {
 
@@ -40,7 +40,7 @@ public class Test {
 //		UserDao userdao = (UserDao) ac.getBean("userDao");
 //		List<Basic> users = userdao.selectAll();
 		BasicDao basicdao = (BasicDao) ac.getBean("basicDao");
-		List<Basic> basics = basicdao.selectAll();
+		List<Basic> basics = basicdao.selectAll(new HashMap<String,Integer>());
 		for(int i=0;i<=2;i++)
 			System.out.println(basics.get(i).getEntname());
 		System.out.println("END");

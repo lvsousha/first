@@ -6,7 +6,8 @@ var basicStore = Ext.create('Ext.data.Store', {
     	         url: '/first/content/hbjh/basic_list',
     	         reader: {
     	             type: 'json',
-    	             root: 'basics'
+    	             root: 'basics.models',
+    	             totalProperty: 'basics.total'
     	         }
     	     },
     	     autoLoad: true,

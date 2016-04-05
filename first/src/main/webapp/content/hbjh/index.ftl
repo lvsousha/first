@@ -8,37 +8,39 @@
 <script type="text/javascript"  src="/first/js/model/model.js"></script>
 <script type="text/javascript"  src="/first/js/app/App.js"></script>
 <script type="text/javascript"  src="/first/js/app/Toolbar.js"></script>
+<script type="text/javascript"  src="/first/js/modules/westModule.js"></script>
+<script type="text/javascript"  src="/first/js/modules/northModule.js"></script>
 </head>
 
 <script type="text/javascript">
 Ext.onReady(function(){
 	
-	var east = Ext.create('Ext.panel.Panel',{
-		id : 'North',
-		region:'north',
-		split: true,
-		collapsible: true,
-		height:100,
-		layout:'fit'
-	});
-	
-	var menu = Ext.create('Ext.panel.Panel', {
-		id : 'mainMenu',
-		region:'west',
-		title: '例子',
-		split: true,
-		collapsible: true,
-		width: 150,
-		minWidth: 50,
-		maxWidth: 300,
-		stateful: true,
-		layout: {
-			type: 'accordion',
-			titleCollapse: true,
-			animate: true
-		},
-		items:[],
-	});
+//	var north = Ext.create('Ext.panel.Panel',{
+//		id : 'North',
+//		region:'north',
+//		split: true,
+//		collapsible: true,
+//		height:100,
+//		layout:'fit'
+//	});
+//	
+//	var menu = Ext.create('Ext.panel.Panel', {
+//		id : 'mainMenu',
+//		region:'west',
+//		title: '例子',
+//		split: true,
+//		collapsible: true,
+//		width: 150,
+//		minWidth: 50,
+//		maxWidth: 300,
+//		stateful: true,
+//		layout: {
+//			type: 'accordion',
+//			titleCollapse: true,
+//			animate: true
+//		},
+//		items:[],
+//	});
 	
 	<#include  "hbjh/list.ftl">;
 
