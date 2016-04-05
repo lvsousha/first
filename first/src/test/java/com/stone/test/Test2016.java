@@ -24,7 +24,7 @@ public class Test2016 {
 //		}
 			System.out.println(orderchanges.size());
 		for(String orderchange : orderchanges){
-			System.out.println("UPDATE");
+			System.out.println(orderchange);
 		}
 		System.out.println("END");
 

@@ -77,7 +77,7 @@ public class TableToJavaAndXml {
 
 	public void createBasicFileAboutMybatis(Connection conn){
 		Map<String, Table> tables = getTables(conn);
-		FreeMarkerUtil fmu = new FreeMarkerUtil();
+//		FreeMarkerUtil fmu = new FreeMarkerUtil();
 		Iterator<String> keys = tables.keySet().iterator();
 		while(keys.hasNext()){
 			String key = keys.next();
