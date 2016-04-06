@@ -29,7 +29,7 @@ Ext.define('Menu', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'model.menuname', type: 'string'},
-        {name: 'model.uri',  type: 'string'},
+        {name: 'model.url',  type: 'string'},
         {name: 'text',  type: 'string'},
         {name: 'model',  type: 'object'}
     ]

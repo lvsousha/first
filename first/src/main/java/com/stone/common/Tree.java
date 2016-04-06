@@ -8,14 +8,14 @@ public class Tree {
 	private String text = null;
 	private boolean leaf = false;
 	private boolean expanded = true;
-	private boolean checked = false;
+//	private boolean checked = false;
 	private Object model;
 
 	public static Tree folder(String text, Object model){
 		Tree tree = new Tree();
 		tree.setExpanded(true);
 		tree.setLeaf(false);
-		tree.setChecked(false);
+//		tree.setChecked(false);
 		tree.setText(text);
 		tree.setModel(model);
 		return tree;
@@ -25,7 +25,7 @@ public class Tree {
 		Tree tree = new Tree();
 		tree.setExpanded(true);
 		tree.setLeaf(true);
-		tree.setChecked(false);
+//		tree.setChecked(false);
 		tree.setText(text);
 		tree.setModel(model);
 		return tree;
@@ -71,13 +71,13 @@ public class Tree {
 		this.model = model;
 	}
 
-	public boolean isChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
+//	public boolean isChecked() {
+//		return checked;
+//	}
+//
+//	public void setChecked(boolean checked) {
+//		this.checked = checked;
+//	}
 
 
 }

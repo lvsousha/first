@@ -4,5 +4,11 @@ var north = Ext.create('Ext.panel.Panel',{
 		split: true,
 		collapsible: true,
 		height:100,
-		layout:'fit'
+		layout:'fit',
+		items:{
+        	xtype:'image',
+        	id:'code_image',
+        	src:'../images/background.jpg',
+        	alt:'aaa'
+        }
 	});
