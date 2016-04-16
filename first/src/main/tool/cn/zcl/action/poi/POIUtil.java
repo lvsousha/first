@@ -1,18 +1,32 @@
 package cn.zcl.action.poi;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class POIUtil {
 
-	
+	private POIFSFileSystem fs;
+    private HSSFWorkbook wb;
+    private HSSFSheet sheet;
+    private HSSFRow row;
 	
 	public void createExcel(){
 		String outputFile = "D:\\test.xls"; 
@@ -77,4 +91,91 @@ public class POIUtil {
 
 	}
 	
+	/**
+     * 读取Excel表格表头的内容
+     * @param InputStream
+     * @return String 表头内容的数组
+     */
+    public List<String> readExcelTitle(String sourceFileName) {
+        try {
+        	InputStream is = new FileInputStream(sourceFileName);
+        	fs = new POIFSFileSystem(is);
+            wb = new HSSFWorkbook(fs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sheet = wb.getSheetAt(0);
+        row = sheet.getRow(0);       
+        int colNum = row.getPhysicalNumberOfCells();// 标题总列数
+        List<String> title = new ArrayList<>();
+        for (int i = 0; i < colNum; i++) {
+            title.add(getCellFormatValue(row.getCell(i)));
+        }
+        return title;
+    }
+
+    /**
+     * 读取Excel数据内容
+     * @param InputStream
+     * @return Map 包含单元格数据内容的Map对象
+     */
+    public Map<Integer, List<String>> readExcelContent(String sourceFileName) {
+        Map<Integer, List<String>> contents = new HashMap<>();
+        try {
+        	InputStream is = new FileInputStream(sourceFileName);
+            fs = new POIFSFileSystem(is);
+            wb = new HSSFWorkbook(fs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sheet = wb.getSheetAt(0);    
+        int rowNum = sheet.getLastRowNum();// 得到总行数
+        row = sheet.getRow(0);
+        int colNum = row.getPhysicalNumberOfCells();      
+        for (int i = 1; i <= rowNum; i++) {// 正文内容应该从第二行开始,第一行为表头的标题
+            List<String> content = new ArrayList<>();
+        	row = sheet.getRow(i);
+            for(int j=0;j<colNum;j++){
+            	content.add(getCellFormatValue(row.getCell(j)).trim());
+            }
+            contents.put(i, content);
+        }
+        return contents;
+    }
+
+    /**
+     * 根据HSSFCell类型设置数据
+     * @param cell
+     * @return
+     */
+    private String getCellFormatValue(HSSFCell cell) {
+        String cellvalue = "";
+        if (cell != null) {          
+            switch (cell.getCellType()) {// 判断当前Cell的Type            
+            case HSSFCell.CELL_TYPE_NUMERIC:// 如果当前Cell的Type为NUMERIC
+            case HSSFCell.CELL_TYPE_FORMULA: {               
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {// 判断当前的cell是否为Date
+                    // 如果是Date类型则，转化为Data格式                   
+                    //方法1：这样子的data格式是带时分秒的：2011-10-12 0:00:00
+                    //cellvalue = cell.getDateCellValue().toLocaleString();                    
+                    //方法2：这样子的data格式是不带带时分秒的：2011-10-12
+                    Date date = cell.getDateCellValue();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    cellvalue = sdf.format(date);                    
+                }else{ // 如果是纯数字                  
+                    cellvalue = String.valueOf(cell.getNumericCellValue());// 取得当前Cell的数值
+                }
+                break;
+            }           
+            case HSSFCell.CELL_TYPE_STRING:// 如果当前Cell的Type为STRING                
+                cellvalue = cell.getRichStringCellValue().getString();// 取得当前的Cell字符串
+                break;           
+            default:// 默认的Cell值
+                cellvalue = " ";
+            }
+        } else {
+            cellvalue = "";
+        }
+        return cellvalue;
+    }	
 }

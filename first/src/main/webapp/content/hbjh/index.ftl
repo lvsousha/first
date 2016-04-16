@@ -43,11 +43,12 @@ Ext.onReady(function(){
 //	});
 	
 	<#include  "hbjh/list.ftl">;
+	<#include  "hbjh/linechart.ftl">;
 	<#include  "hbjh/shareholder.ftl">;
 	<#include  "hbjh/person.ftl">;
 
 	App.createContentPanel({
-		tabs: [basicTab,personTab]
+		tabs: [basicTab,personTab,shareholderTab]
 	});
 	
 	var content = Ext.getCmp('mainContent');

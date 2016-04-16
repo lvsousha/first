@@ -55,14 +55,3 @@ var shareholderGrid = Ext.create('Ext.grid.Panel',{
 	        displayInfo: true
 	    }],
 });
-
-var shareholderTab = {
-		 title:'股东',
-		 layout:'fit',
-		 listeners:{
-//	    	 activate:function(e,opts){
-//	    		 if(e.items.getAt(0).store.count() == 0)
-//	    			 e.items.getAt(0).store.load();
-//	    	 }
-	     }
-	 };

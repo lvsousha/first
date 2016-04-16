@@ -3,8 +3,10 @@ package cn.zcl.action.fileutil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -165,4 +167,20 @@ public class FileUtil {
 
         }
     }
+	
+	public void writeData(String outFileName,String data){
+		FileWriter fw = null;
+		try{
+			File file = new File(outFileName);
+			fw = new FileWriter(file,true);
+			PrintWriter pw = new PrintWriter(fw);
+			pw.println(data);
+			pw.flush();
+			fw.flush();
+			pw.close();
+			fw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }
