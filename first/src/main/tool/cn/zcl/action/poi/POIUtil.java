@@ -23,13 +23,10 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class POIUtil {
 
-	private POIFSFileSystem fs;
-    private HSSFWorkbook wb;
-    private HSSFSheet sheet;
-    private HSSFRow row;
 	
-	public void createExcel(){
-		String outputFile = "D:\\test.xls"; 
+	
+	public void createExcel(String fileName){
+		String outputFile = fileName; 
 		try {
 	            // 创建新的Excel 工作簿
 	            HSSFWorkbook workbook = new HSSFWorkbook();
@@ -92,53 +89,61 @@ public class POIUtil {
 	}
 	
 	/**
-     * 读取Excel表格表头的内容
-     * @param InputStream
-     * @return String 表头内容的数组
-     */
+	 * 读取Excel标题头内容
+	 * @param sourceFileName
+	 * @return List 
+	 */
     public List<String> readExcelTitle(String sourceFileName) {
-        try {
+    	POIFSFileSystem fs;
+        HSSFWorkbook wb;
+        HSSFSheet sheet;
+        HSSFRow row;
+        List<String> title = new ArrayList<>();
+    	try {
         	InputStream is = new FileInputStream(sourceFileName);
         	fs = new POIFSFileSystem(is);
             wb = new HSSFWorkbook(fs);
+            sheet = wb.getSheetAt(0);
+            row = sheet.getRow(0);       
+            int colNum = row.getPhysicalNumberOfCells();// 标题总列数
+            for (int i = 0; i < colNum; i++) {
+                title.add(getCellFormatValue(row.getCell(i)));
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        sheet = wb.getSheetAt(0);
-        row = sheet.getRow(0);       
-        int colNum = row.getPhysicalNumberOfCells();// 标题总列数
-        List<String> title = new ArrayList<>();
-        for (int i = 0; i < colNum; i++) {
-            title.add(getCellFormatValue(row.getCell(i)));
         }
         return title;
     }
 
     /**
      * 读取Excel数据内容
-     * @param InputStream
+     * @param sourceFileName
      * @return Map 包含单元格数据内容的Map对象
      */
     public Map<Integer, List<String>> readExcelContent(String sourceFileName) {
+    	POIFSFileSystem fs;
+        HSSFWorkbook wb;
+        HSSFSheet sheet;
+        HSSFRow row;
         Map<Integer, List<String>> contents = new HashMap<>();
         try {
         	InputStream is = new FileInputStream(sourceFileName);
             fs = new POIFSFileSystem(is);
             wb = new HSSFWorkbook(fs);
+            sheet = wb.getSheetAt(0);    
+            int rowNum = sheet.getLastRowNum();// 得到总行数
+            row = sheet.getRow(0);
+            int colNum = row.getPhysicalNumberOfCells();      
+            for (int i = 1; i <= rowNum; i++) {// 正文内容应该从第二行开始,第一行为表头的标题
+                List<String> content = new ArrayList<>();
+            	row = sheet.getRow(i);
+                for(int j=0;j<colNum;j++){
+                	content.add(getCellFormatValue(row.getCell(j)).trim());
+                }
+                contents.put(i, content);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        sheet = wb.getSheetAt(0);    
-        int rowNum = sheet.getLastRowNum();// 得到总行数
-        row = sheet.getRow(0);
-        int colNum = row.getPhysicalNumberOfCells();      
-        for (int i = 1; i <= rowNum; i++) {// 正文内容应该从第二行开始,第一行为表头的标题
-            List<String> content = new ArrayList<>();
-        	row = sheet.getRow(i);
-            for(int j=0;j<colNum;j++){
-            	content.add(getCellFormatValue(row.getCell(j)).trim());
-            }
-            contents.put(i, content);
         }
         return contents;
     }
@@ -171,7 +176,7 @@ public class POIUtil {
                 cellvalue = cell.getRichStringCellValue().getString();// 取得当前的Cell字符串
                 break;           
             default:// 默认的Cell值
-                cellvalue = " ";
+                cellvalue = "";
             }
         } else {
             cellvalue = "";

@@ -168,6 +168,11 @@ public class FileUtil {
         }
     }
 	
+	/**
+	 * 向文件添加信息
+	 * @param outFileName
+	 * @param data
+	 */
 	public void writeData(String outFileName,String data){
 		FileWriter fw = null;
 		try{
