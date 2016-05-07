@@ -21,16 +21,11 @@
 
     <!-- 采用注释的方式配置bean -->
     <context:annotation-config />
+    
     <!-- 数据库配置文件位置 -->
-
     <context:property-placeholder location="classpath:properties/sqlserver/jdbc.properties" />
 
-    <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象
-    加载Spring配置文件时，如果Spring配置文件中所定义的Bean类实现了ApplicationContextAware 接口，
-    那么在加载Spring配置文件时，会自动调用ApplicationContextAware 接口中的
-     public void setApplicationContext(ApplicationContext context) throws BeansException
-          方法，获得ApplicationContext对象
-    -->
+    <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 加载Spring配置文件时，如果Spring配置文件中所定义的Bean类实现了ApplicationContextAware 接口，那么在加载Spring配置文件时，会自动调用ApplicationContextAware 接口中的public void setApplicationContext(ApplicationContext context) throws BeansException方法，获得ApplicationContext对象-->
 	<bean class="com.stone.common.SpringContextHolder" lazy-init="false" />
 
     <!-- 配置jdbc数据源 -->
@@ -41,7 +36,7 @@
         <property name="password" value="${jdbc.password}" />
     </bean>
 
-    <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择
+    <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择 
     <aop:aspectj-autoproxy  proxy-target-class="true"/>-->
 
     <!-- 配置mybitasSqlSessionFactoryBean -->
@@ -50,6 +45,10 @@
         <property name="configLocation" value="classpath:mybatis/mybatis.xml" />
         <property name="typeAliasesPackage" value="com.zcl.dao" />
         <property name="mapperLocations" value="classpath*:mybatis/zcl/*.xml" />
+    </bean>
+       
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.zcl.dao"/>
     </bean>
 
     <!-- Freemarker配置 -->
@@ -80,10 +79,6 @@
     <!-- 使用annotation注解方式配置事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.zcl.dao"/>
-    </bean>
 
-    <!-- <import resource="classpath*:spring/spring-shiro.xml" /> -->
 
 </beans>

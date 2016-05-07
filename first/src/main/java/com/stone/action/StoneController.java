@@ -46,4 +46,9 @@ public class StoneController {
 	public String hbjh(){
 		return "hbjh/index";
 	}
+	
+	@RequestMapping(value="content/register")
+	public String register(){
+		return "gx/register";
+	}
 }
