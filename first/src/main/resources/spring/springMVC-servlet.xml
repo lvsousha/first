@@ -32,6 +32,7 @@
 	<mvc:resources mapping="/extjs/**" location="/extjs/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/gx/**" location="/gx/" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
      	 <property name="messageConverters">
@@ -54,6 +55,21 @@
 		</mvc:interceptor>
 	</mvc:interceptors> -->
 	
+	<!-- Freemarker配置 -->
+	<bean id="freemarkerConfig"  class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	    <property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
+	    <property name="freemarkerSettings">
+	        <props>
+	            <prop key="template_update_delay">0</prop>
+	            <prop key="default_encoding">UTF-8</prop>
+	            <prop key="number_format">0.##########</prop>
+	            <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+	            <prop key="classic_compatible">true</prop>
+	            <prop key="template_exception_handler">ignore</prop>
+	        </props>
+	    </property>
+	</bean>
+	
     <!-- 这个是针对返回视图还是json值的视图配置   来分别处理同步和异步请求 -->
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
             <property name="mediaTypes">
@@ -69,7 +85,7 @@
                 <list>
                     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
                     <bean id="freemarkerViewResolver"  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-                        <property name="order" value="1"/>
+                        <property name="order" value="0"/>
                         <property name="cache" value="true" />
                         <property name="prefix" value="" />
                         <property name="suffix" value=".ftl" />
@@ -81,9 +97,8 @@
                     </bean>
 					<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 						<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-						<property name="prefix" value="/content/" />
+						<property name="prefix" value="/WEB-INF/jsp/" />
 						<property name="suffix" value=".jsp" />
-						<property name="order" value="2"/>
 					</bean>
                 </list>
             </property>

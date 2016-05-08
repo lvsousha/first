@@ -42,13 +42,14 @@ public class StoneController {
 		return "login/login";
 	}
 	
-	@RequestMapping(value="content/hbjh")
+	@RequestMapping(value="freemarker/hbjh")
 	public String hbjh(){
 		return "hbjh/index";
 	}
 	
-	@RequestMapping(value="content/register")
-	public String register(){
-		return "gx/register";
+	@RequestMapping(value="jsp/register")
+	public String sem(){
+		System.out.println("IN");
+		return "/register";
 	}
 }
