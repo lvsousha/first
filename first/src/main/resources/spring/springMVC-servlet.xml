@@ -32,7 +32,7 @@
 	<mvc:resources mapping="/extjs/**" location="/extjs/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/images/**" location="/images/" />
-	<mvc:resources mapping="/gx/**" location="/gx/" />
+	<mvc:resources mapping="/jquery/**" location="/jquery/" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
      	 <property name="messageConverters">

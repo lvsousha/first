@@ -49,7 +49,11 @@ public class StoneController {
 	
 	@RequestMapping(value="jsp/register")
 	public String sem(){
-		System.out.println("IN");
 		return "/register";
+	}
+	
+	@RequestMapping(value="jsp/example")
+	public String example2(){
+		return "/example";
 	}
 }
