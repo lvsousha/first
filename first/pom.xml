@@ -238,6 +238,11 @@
   		<artifactId>amqp-client</artifactId>
   		<version>3.6.1</version>
   	</dependency>
+  	<dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-neo4j</artifactId>
+        <version>4.1.1.RELEASE</version>
+    </dependency>
   </dependencies>
   <build>
   	<!--产生的构件的文件名，默认值是${artifactId}-${version}。-->
