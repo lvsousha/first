@@ -196,44 +196,13 @@ public class FileUtil {
 	
 	public static void main(String[] args){
 		FileUtil fu = new FileUtil();
-		RegexUtil ru = new RegexUtil();
-		File fold = new File("/裁判文书");
-		for(File child : fold.listFiles()){
-			int i = 0;
-			for(File file : child.listFiles()){
-				StringBuffer sb = fu.readTxtFile(file);
-				String content = sb.toString().replaceAll("&amp;#xA;", "</br>");
-				content = content.replaceAll("&amp;amp;#xA;", "</br>");
-				content = content.replaceAll("lt;", "").replaceAll("gt;", "").replaceAll("amp;", "").replaceAll("#xA;", "").replaceAll("&amp;", "");
-				String regex = "[（﹝\\(\\[][\uFF10-\uFF190-9]{4}[）﹞\\)\\]]*[\\w]*[^A-Za-z]{0,30}号";
-				List<String> matchs = ru.getFirstMatchContenet(content.replaceAll(" ", ""), regex);
-				for(String match : matchs){
-					match = match.replaceAll("[（﹝\\(\\[]", "（");
-					match = match.replaceAll("[）〕﹞\\)\\]]", "）");
-					if(match.indexOf("）") == -1){
-						match = match.substring(0, 5)+"）"+match.substring(5,match.length());
-					}
-					JSONObject object = new JSONObject();
-					object.put("title", match);
-					object.put("content-text", content);
-//					object.put("filename", file.getName());
-					try {
-						FileUtils.writeStringToFile(new File("/export/"+child.getName()+"/"+match+".json"), object.toString(), "UTF-8");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-//				System.out.println(match);
-				}
-				if(matchs.size() == 0){
-					i++;
-//				System.out.println("ERROR:"+sb.toString());
-//				System.out.println("ERROR:"+file.getName());
-//				break;
-				}				
-			}
-			System.out.println(child.getName()+":"+i);
-			break;
+		File source = new File("E:/store");
+		for(File file : source.listFiles()){
+			String path = file.getPath();
+			String name = file.getName().split("\\.")[0];
+			fu.writeData("e:/cpws.csv", path+","+name);
+			System.out.println(name);
+			
 		}
 	}
 }

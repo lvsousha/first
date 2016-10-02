@@ -19,14 +19,28 @@ public class RegexUtil {
 	
 	
 	public static void main(String[] args) {
-		RegexUtil ru = new RegexUtil();
-		String orign = "&amp;amp;lt;p&amp;amp;gt;&amp;amp;#xA;&amp;amp;lt;title&amp;amp;gt;&amp;amp;lt;/title&amp;amp;gt;&amp;amp;#xA;&amp;amp;lt;/p&amp;amp;gt;&amp;amp;#xA;&amp;amp;#xA;";
-//		String regex = "（20\\d{2}）(\\W)+(\\d)+号";
-//		List<String> matchs = ru.getFirstMatchContenet(orign, regex);
-//		for(String match : matchs){
-//			System.out.println(match);
-//		}
-		System.out.println(orign.replaceAll("[[amp;][lt;][gt;][#xA;]]", ""));
+		// 按指定模式在字符串查找
+		
+		String s = "doeses";
+		System.out.println(s.replaceAll("do(es)?", "K"));
+		
+	      String line = "This order was placed for QT3000! OK?";
+	      String pattern = "(.*)(\\d+)(.*)";
+
+	      // 创建 Pattern 对象
+	      Pattern r = Pattern.compile(pattern);
+
+	      // 现在创建 matcher 对象
+	      Matcher m = r.matcher(line);
+	      System.out.println(m.groupCount());
+	      if (m.find( )) {
+	         System.out.println("Found value: " + m.group(0) );
+	         System.out.println("Found value: " + m.group(1) );
+	         System.out.println("Found value: " + m.group(2) );
+	         System.out.println("Found value: " + m.group(3) );
+	      } else {
+	         System.out.println("NO MATCH");
+	      }
 		
 	}
 
